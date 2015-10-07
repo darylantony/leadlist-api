@@ -1,0 +1,1 @@
+from people_api.settings.common import *
