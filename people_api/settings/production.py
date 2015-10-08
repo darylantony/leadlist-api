@@ -1,4 +1,7 @@
-from people_api.settings.common import *
+from .common import *
+
+DEBUG = False
+ALLOWED_HOSTS = []
 
 INSTALLED_APPS += ('storages',)
 AWS_STORAGE_BUCKET_NAME = "leadlist-django-bucket"
