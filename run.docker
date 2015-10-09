@@ -1,0 +1,12 @@
+FROM leadlist-base
+
+ADD wheelhouse /wheelhouse
+RUN /venv/bin/pip install --no-index -f wheelhouse /wheelhouse/*.whl
+RUN /venv/bin/pip install --no-index -f wheelhouse LeadList
+
+EXPOSE 8081
+
+ENV DJANGO_SETTINGS_MODULE=people_api.settings.development
+#ENTRYPOINT /venv/bin/django-admin runserver 0.0.0.0:8081
+ENTRYPOINT /venv/bin/gunicorn -w 3 -b 0.0.0.0:8081 people_api.wsgi:application
+
