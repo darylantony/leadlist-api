@@ -1,0 +1,18 @@
+FROM ubuntu:14.04
+
+# Compile Python 3 manually - Python 3 support is broken in ubuntu image
+RUN apt-get update
+RUN apt-get install -qy build-essential
+RUN apt-get build-dep -qy  python3.4
+RUN apt-get install -qy wget
+
+RUN cd /tmp; \
+    wget https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tgz; \
+    tar xzf Python-3.4.3.tgz;
+
+RUN cd /tmp/Python-3.4.3; \
+    ./configure --prefix=/opt/Python-3.4.3; \
+    make -s -j2 && make install
+
+RUN ln -s /opt/Python-3.4.3/bin/python3 /usr/local/bin/
+
