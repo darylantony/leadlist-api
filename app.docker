@@ -5,10 +5,11 @@ ADD wheels $WHEELS_DIR
 RUN $VENV_DIR/bin/pip install --no-index -f $WHEELS_DIR $WHEELS_DIR/*.whl
 RUN $VENV_DIR/bin/pip install --no-index -f $WHEELS_DIR LeadList
 
-EXPOSE 8000
 ENV STATIC_ROOT=$APP_DIR/static
+EXPOSE 8000
+VOLUME $APP_DIR/static
 
 ENTRYPOINT $VENV_DIR/bin/django-admin migrate --noinput && \
            $VENV_DIR/bin/django-admin collectstatic --noinput && \
-           $VENV_DIR/bin/gunicorn -w 3 -b 0.0.0.0:8000 people_api.wsgi:application
+           $VENV_DIR/bin/gunicorn -w 3 -b 0.0.0.0:8000 people_api.wsgi:application --access-logfile -
 

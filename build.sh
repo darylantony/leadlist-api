@@ -12,4 +12,4 @@ docker run --rm \
        leadlist-builder
 
 docker build -t leadlist-app -f app.docker .
-
+docker build -t leadlist-nginx -f nginx.docker .
