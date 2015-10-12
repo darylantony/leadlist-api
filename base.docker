@@ -1,31 +1,11 @@
 # Base image with Python 3.4.3 and created virtual environment
-FROM ubuntu:14.04
-
-# Compile Python 3 manually - Python 3 support is broken in ubuntu image
-RUN apt-get update
-RUN apt-get install -qy build-essential
-RUN apt-get build-dep -qy  python3.4
-RUN apt-get install -qy wget
-
-# Get Python source and unpack it
-RUN cd /tmp; \
-    wget https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tgz; \
-    tar xzf Python-3.4.3.tgz;
-
-# Compile it
-RUN cd /tmp/Python-3.4.3; \
-    ./configure --prefix=/opt/Python-3.4.3; \
-    make -s -j2 && make install
-
-RUN ln -s /opt/Python-3.4.3/bin/python3 /usr/local/bin/
-
-# Install pip and virtualenv
-RUN wget https://bootstrap.pypa.io/get-pip.py -O - | python3
-RUN ln -s /opt/Python-3.4.3/bin/pip3 /usr/local/bin/
+FROM python:3.4
 
 RUN pip3 install virtualenv
-RUN ln -s /opt/Python-3.4.3/bin/virtualenv /usr/local/bin/
+RUN virtualenv /app/venv
 
-# Create virtualenv
-RUN virtualenv -p python3 /venv
+ENV APP_DIR=/app \
+    VENV_DIR=/app/venv \
+    WHEELS_DIR=/wheels
 
+RUN apt-get update

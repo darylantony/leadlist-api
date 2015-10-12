@@ -1,4 +1,4 @@
 #!/bin/bash
 
-exec docker run --rm -it -p 8081:8081 leadlist-run;
+exec docker run --rm -it -p 8000:8000 leadlist-run;
 

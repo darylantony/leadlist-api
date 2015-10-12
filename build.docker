@@ -2,27 +2,21 @@
 # and create wheels for Python requirements
 FROM leadlist-base
 
-# Install dependencies for building Python packages
-#RUN apt-get update
-#RUN apt-get install -qy python3-dev build-essential
-#RUN apt-get install -qy build-essential
-#RUN apt-get install -qy python3-dev 
-
 # Install OS dependencies for Python packages
-RUN apt-get install -qyy libpq-dev
-# -o APT::Install-Recommends=false -o APT::Install-Suggests=false \
+RUN apt-get install -y --no-install-recommends \
+            # postgresql-client \
+            libpq-dev \
+            gcc && \
+    rm -rf /var/lib/apt/lists/*
 
-# Install wheel
-RUN /venv/bin/pip install wheel
+ENV WHEELHOUSE=$WHEELS_DIR \
+    PIP_WHEEL_DIR=$WHEELS_DIR \
+    PIP_FIND_LINKS=$WHEELS_DIR
 
-ENV WHEELHOUSE=/wheelhouse
-ENV PIP_WHEEL_DIR=/wheelhouse
-ENV PIP_FIND_LINKS=/wheelhouse
-
-VOLUME /wheelhouse
-VOLUME /application
+VOLUME $WHEELS_DIR \
+       /application
 
 # Create all needed wheels
-ENTRYPOINT cd /application; \
-           /venv/bin/pip wheel -r requirements.txt; \
-           /venv/bin/pip wheel .
+ENTRYPOINT cd /application && \
+           $VENV_DIR/bin/pip wheel -r requirements.txt && \
+           $VENV_DIR/bin/pip wheel .
