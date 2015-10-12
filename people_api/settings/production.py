@@ -4,10 +4,12 @@ DEBUG = False
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS += ('storages',)
-AWS_STORAGE_BUCKET_NAME = "leadlist-django-bucket"
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
-STATIC_URL = S3_URL
+#AWS_STORAGE_BUCKET_NAME = "leadlist-django-bucket"
+#STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+#S3_URL = 'http://%s.s3.amazonaws.com/' % AWS_STORAGE_BUCKET_NAME
+#STATIC_URL = S3_URL
+
+STATIC_ROOT = os.environ['STATIC_ROOT']
 
 DATABASES = {    
     'default': {
